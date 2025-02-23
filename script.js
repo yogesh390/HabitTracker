@@ -1,4 +1,4 @@
-import { db } from "./firebase-config.mjs";
+const { db } = require("./firebase-config.js");
 import {
   collection,
   addDoc,
