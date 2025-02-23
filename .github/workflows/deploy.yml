@@ -1,49 +1,26 @@
-name: Lint, Test, and Deploy
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js (just to run the linting)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
 
-      # Step 3: Lint JavaScript files by checking their syntax (plain JS, no ES Modules)
-      - name: Check JavaScript Syntax
-        run: |
-          node --check script.js
-          node --check chatbot-script.js
-          [ -f biometric.js ] && node --check biometric.js || echo "biometric.js not found or skipped."
+      - name: Build
+        run: echo "No build step required for static site."
 
-      # Step 4: Lint HTML using tidy (installing it via apt-get)
-      - name: Lint HTML
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tidy
-          tidy -q -e index.html || echo "HTML linting found issues, please review."
-
-      # Step 5: (Optional) Run Tests – you may add test steps later
-      - name: Run Tests
-        run: echo "No tests specified for this vanilla project."
-
-      # Step 6: Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./ # Change this if your files are in a subdirectory
