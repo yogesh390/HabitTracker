@@ -17,18 +17,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js so we can use its built-in syntax checking.
+      # Step 2: Set up Node.js (just to run the linting)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
 
-      # Step 3: Lint JavaScript files by checking their syntax.
+      # Step 3: Lint JavaScript files by checking their syntax (plain JS, no ES Modules)
       - name: Check JavaScript Syntax
         run: |
           node --check script.js
           node --check chatbot-script.js
-          # If you have a biometric.js file, check it as well.
           [ -f biometric.js ] && node --check biometric.js || echo "biometric.js not found or skipped."
 
       # Step 4: Lint HTML using tidy (installing it via apt-get)
@@ -36,10 +35,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tidy
-          # Run tidy in quiet mode; errors (if any) will be printed.
           tidy -q -e index.html || echo "HTML linting found issues, please review."
 
-      # Step 5: (Optional) Run tests – if you add any tests later.
+      # Step 5: (Optional) Run Tests – you may add test steps later
       - name: Run Tests
         run: echo "No tests specified for this vanilla project."
 
