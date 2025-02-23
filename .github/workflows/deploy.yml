@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main # Change this to your default branch if it's not 'main'
 
 jobs:
   deploy:
@@ -13,15 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-
-      - name: Build
-        run: echo "No build step required for static site."
-
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ # Change this if your files are in a subdirectory
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Use the GitHub token for authentication
+          publish_dir:
           publish_branch: gh-pages
